@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "./CardGatex";
+import Card from "./CardGatex.tsx";
 import "../../index.css";
 import Axios from "axios";
 const userId = localStorage.getItem("userId");

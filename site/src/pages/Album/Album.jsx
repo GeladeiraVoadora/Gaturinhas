@@ -1,5 +1,5 @@
 import "../Album/Style.css";
-import Navbar from "../Components/Navbar";
+import Navbar from "../Components/../Components/Navbar.tsx";
 import CardGridAlbum from "../Components/CardGridAlbum";
 import CreateAlbumButton from "../Components/CreateAlbumButton";
 import React from "react";

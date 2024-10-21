@@ -1,5 +1,5 @@
 import './Style.css';
-import Navbar from '../Components/Navbar';
+import Navbar from '../Components/../Components/Navbar.tsx';
 import { Formik,  Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';

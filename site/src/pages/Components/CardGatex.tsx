@@ -1,12 +1,20 @@
 import React from "react";
 
-const CardGatex = ({image, name, type, desc}) => {
-  let textColor;
-  let bgColor;
+interface CardGatexProps {
+  image: string;
+  name: string;
+  type: string;
+  desc: string;
+}
+
+const CardGatex: React.FC<CardGatexProps> = ({ image, name, type, desc }) => {
+  let textColor: string;
+  let bgColor: string;
+
   switch (type) {
     case "Legendary":
       textColor = "white";
-      bgColor= "purple";
+      bgColor = "purple";
       break;
     case "Epic":
       textColor = "green";

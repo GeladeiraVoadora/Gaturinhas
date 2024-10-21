@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Components/Navbar';
+import Navbar from '../Components/../Components/Navbar.tsx';
 import './Style.css';
 import Axios from "axios";
-import Card from '../Components/CardGatex'
+import Card from '../Components/CardGatex.tsx';
 
 
 

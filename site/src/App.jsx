@@ -2,12 +2,12 @@ import './App.css';
 import React from 'react';
 import  {Login}  from './pages/Authentication/Login'
 import {Routes, Route} from 'react-router-dom';
-import Store from './pages/Store/Store';
-import Home from './pages/Home/Home';
+import Store from './pages/Store/Store.tsx';
+import Home from './pages/Home/Home.tsx';
 import Inventory from './pages/Invetory/Inventory';
 import Trade from './pages/Trade/Trade'
 import Cemetery from './pages/Cemetery/cemetery';
-import Gatex from  './pages/Gatex/Gatex'
+import Gatex from  './pages/Gatex/Gatex.tsx';
 import Album from './pages/Album/Album';
 import Forge from './pages/Forge/Index';
 function App() {

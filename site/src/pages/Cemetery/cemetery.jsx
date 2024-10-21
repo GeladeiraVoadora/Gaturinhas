@@ -1,6 +1,6 @@
 import React from 'react';
 import CardGrid from '../Components/CardGrid';
-import Navbar from '../Components/Navbar';
+import Navbar from '../Components/../Components/Navbar.tsx';
 
 export function Cemetery(){
         return (

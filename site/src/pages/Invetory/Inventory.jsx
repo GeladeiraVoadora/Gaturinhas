@@ -1,5 +1,5 @@
 import './Style.css';
-import Navbar from '../Components/Navbar';
+import Navbar from '../Components/../Components/Navbar.tsx';
 import CardGridInv from '../Components/CardGridInv';
 
 
