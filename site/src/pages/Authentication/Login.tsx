@@ -18,7 +18,7 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClickRegister = (values: RegisterValues) => {
-    Axios.post("http://localhost:3030/usuario", {
+    Axios.post("http://localhost:3030/api/usuario", {
       email: values.email,
       password: values.password,
     }).then((response) => {
@@ -32,7 +32,7 @@ export const Login: React.FC = () => {
   };
 
   const handleClickLogin = (values: LoginValues) => {
-    Axios.post("http://localhost:3030/login", {
+    Axios.post("http://localhost:3030/api/login", {
       email: values.email,
       password: values.password,
     }).then((response) => {
