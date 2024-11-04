@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +14,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.7",
-    "nodemon": "^2.0.21",
+    "nodemon": "^3.1.7",
     "prisma": "^4.11.0",
     "sucrase": "^3.29.0",
     "ts-node": "^10.9.2",
