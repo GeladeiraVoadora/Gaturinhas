@@ -100,7 +100,12 @@ export const Login: React.FC = () => {
           >
             <Form className="login-form">
               <div className="login-form-group">
-                <Field name="email" className="form-field" placeholder="E-mail" />
+                <Field
+                  name="email"
+                  className="form-field"
+                  placeholder="E-mail"
+                  data-testid="login-email"
+                />
                 <ErrorMessage component="span" name="email" className="form-error" />
               </div>
               <div className="login-form-group">
@@ -109,6 +114,7 @@ export const Login: React.FC = () => {
                   name="password"
                   className="form-field"
                   placeholder="Senha"
+                  data-testid="login-password"
                 />
                 <ErrorMessage component="span" name="password" className="form-error" />
               </div>
@@ -125,7 +131,12 @@ export const Login: React.FC = () => {
           >
             <Form className="login-form">
               <div className="login-form-group">
-                <Field name="email" className="form-field" placeholder="E-mail" />
+                <Field
+                  name="email"
+                  className="form-field"
+                  placeholder="E-mail"
+                  data-testid="register-email"
+                />
                 <ErrorMessage component="span" name="email" className="form-error" />
               </div>
               <div className="login-form-group">
@@ -134,6 +145,7 @@ export const Login: React.FC = () => {
                   name="password"
                   className="form-field"
                   placeholder="Crie uma senha"
+                  data-testid="register-password"
                 />
                 <ErrorMessage component="span" name="password" className="form-error" />
               </div>
@@ -143,6 +155,7 @@ export const Login: React.FC = () => {
                   name="confirmPassword"
                   className="form-field"
                   placeholder="Confirme sua senha"
+                  data-testid="register-confirmPassword"
                 />
                 <ErrorMessage
                   component="span"
