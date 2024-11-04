@@ -1,14 +1,14 @@
-import { PrismaClient } from "@prisma/client";
+import { IGatexService } from "../services/interfaces/IGatexService";
 
-const prisma = new PrismaClient();
+export default class GatexController {
+  constructor(private gaturinhaService: IGatexService) {}
 
-export default {
-    async findAllgaturinhas(req: any, res: any) {
-        try {
-          const gaturinhas = await prisma.gaturinha.findMany();
-          return res.json(gaturinhas);
-        } catch (error) {
-          return res.json({ error });
-        }
-      },
+  async findAllGaturinhas(req: any, res: any) {
+    try {
+      const gaturinhas = await this.gaturinhaService.findAll();
+      return res.json(gaturinhas);
+    } catch (error) {
+      return res.json({ error });
     }
+  }
+}
