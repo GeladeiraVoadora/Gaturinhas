@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 
 // Defina o tipo para incluir `gat_prod`
-export type Inventario = Prisma.inventarioGetPayload<{
+export type Inventory = Prisma.inventarioGetPayload<{
   include: {
     gat_prod: {
       select: {

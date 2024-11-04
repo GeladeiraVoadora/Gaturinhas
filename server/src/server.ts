@@ -9,6 +9,7 @@ app.use(cors());
 
 app.use(mainRouter);
 
+
 app.listen(3030, () => console.log("Server está rodando na porta 3030 🚀"));
 
 // npm install prisma --save-dev

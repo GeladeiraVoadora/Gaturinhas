@@ -1,5 +1,5 @@
 import { PrismaClient, inventario } from "@prisma/client";
-import { IInventoryService } from "./IInventoryService";
+import { IInventoryService } from "./interfaces/IInventoryService";
 
 const prisma = new PrismaClient();
 

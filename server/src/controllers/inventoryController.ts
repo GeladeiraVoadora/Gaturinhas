@@ -1,6 +1,6 @@
 // inventário do usuário (Pacotes e figurinhas. Talvez moedas no front)
-import { IInventoryService } from "../services/IInventoryService";
-import { Inventario } from "../types/inventoryType";
+import { IInventoryService } from "../services/interfaces/IInventoryService";
+import { Inventory } from "../types/inventoryType";
 
 export default class InventarioController {
   constructor(private inventoryService: IInventoryService) {}
@@ -9,7 +9,7 @@ export default class InventarioController {
     try {
       const { invId } = req.params;
       
-      const inventario = await this.inventoryService.findInventoryById(Number(invId)) as Inventario;
+      const inventario = await this.inventoryService.findInventoryById(Number(invId)) as Inventory;
 
       if (!inventario) {
         return res.json({ error: "inventário não encontrado" });

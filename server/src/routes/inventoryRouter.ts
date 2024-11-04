@@ -1,16 +1,16 @@
 import { Router } from "express";
 
-import InventarioController from "../controllers/InventarioController";
+import InventarioController from "../controllers/inventoryController";
 import stickerPackController from "../controllers/stickerPackController";
 import { InventoryService } from "../services/inventoryService";
 
 const inventoryService = new InventoryService();
 const inventarioController = new InventarioController(inventoryService);
 
-const inventarioRouter = Router();
+const inventoryRouter = Router();
 
 //FIXME: da pra mudar de invId para userId
-inventarioRouter.get("/inventario/:invId", (req, res) => inventarioController.findInv(req, res));
-inventarioRouter.get("/inventario/Pac/:invId", stickerPackController.findInv);
+inventoryRouter.get("/inventario/:invId", (req, res) => inventarioController.findInv(req, res));
+inventoryRouter.get("/inventario/Pac/:invId", stickerPackController.findInv);
 
-export { inventarioRouter };
+export { inventoryRouter };
