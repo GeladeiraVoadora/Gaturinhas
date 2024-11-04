@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es6",                                  /* Set the JavaScript language version for emitted JavaScript. */
+    "module": "commonjs",                             /* Specify the module code generation. */
+    "jsx": "react-jsx",                               /* Specify JSX code generation for React 17+. */
+    "moduleResolution": "node",                       /* Resolve modules as Node.js does. */
+    "allowSyntheticDefaultImports": true,             /* Allow 'import x from y' when a module doesn't have a default export. */
+    "esModuleInterop": true,                          /* Emit additional JavaScript to ease support for importing CommonJS modules. */
+    "forceConsistentCasingInFileNames": true,         /* Ensure that casing is correct in imports. */
+    "skipLibCheck": true,                             /* Skip type checking all .d.ts files for performance. */
+    "strict": true,                                   /* Enable all strict type-checking options. */
+
+    /* Type Checking Options */
+    "strictNullChecks": true,                         /* Take 'null' and 'undefined' into account during type checking. */
+    "noImplicitAny": true,                            /* Raise an error for expressions and declarations with an implied 'any' type. */
+    "strictFunctionTypes": true,                      /* Check parameter and return types for function assignments. */
+    "strictPropertyInitialization": true,             /* Ensure that all class properties are initialized. */
+
+    /* React Specific Options */
+    "resolveJsonModule": true,                        /* Enable importing .json files. */
+    "allowJs": true,                                  /* Allow JavaScript files to be part of the project. */
+    "checkJs": false                                  /* Disable error reporting in JavaScript files. */
+  },
+  "include": ["src"],                                  /* Include all files in the 'src' folder. */
+  "exclude": ["node_modules", "build", "dist"]         /* Exclude unnecessary folders from the project. */
+}

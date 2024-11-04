@@ -4,17 +4,33 @@ import Card from "./Card";
 import StickerPackStore from "./StickerPackStore";
 import "../../index.css";
 
-const Grid = () => {
-  const [cards, setCards] = useState([]);
-  const [stickerPacks, setStickerPacks] = useState([]);
+interface CardData {
+  gatId: number;
+  image: string;
+  name: string;
+  price: string;
+  type: string;
+}
+
+interface StickerPackData {
+  pacId: number;
+  image: string;
+  name: string;
+  price: string;
+}
+
+const Grid: React.FC = () => {
+  const [cards, setCards] = useState<CardData[]>([]);
+  const [stickerPacks, setStickerPacks] = useState<StickerPackData[]>([]);
 
   useEffect(() => {
     console.log("Fetching cards and sticker packs...");
     const cardPromise = axios.get("http://localhost:3030/gatex");
     const stickerPackPromise = axios.get("http://localhost:3030/stickerPackStore");
+
     Promise.all([cardPromise, stickerPackPromise])
       .then(([cardResponse, stickerPackResponse]) => {
-        const commonCards = cardResponse.data.filter((card) => card.type === "Common");
+        const commonCards = cardResponse.data.filter((card: CardData) => card.type === "Common");
         setCards(commonCards);
         setStickerPacks(stickerPackResponse.data);
       })

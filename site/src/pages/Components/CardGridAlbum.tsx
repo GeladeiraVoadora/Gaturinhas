@@ -2,14 +2,22 @@ import React, { useState, useEffect } from "react";
 import Card from "./CardGatex";
 import "../../index.css";
 import Axios from "axios";
+
 const userId = localStorage.getItem("userId");
 
-const CardGridAlbum = () => {
-  const [cards, setCards] = useState([]);
+interface CardData {
+  image: string;
+  name: string;
+  type: string;
+  desc: string;
+}
+
+const CardGridAlbum: React.FC = () => {
+  const [cards, setCards] = useState<CardData[]>([]);
 
   useEffect(() => {
     console.log("Fetching cards...");
-    Axios.get("http://localhost:3030/album/" + userId)
+    Axios.get(`http://localhost:3030/album/${userId}`)
       .then((response) => {
         setCards(response.data.gaturinhas);
         console.log(response);
@@ -22,8 +30,9 @@ const CardGridAlbum = () => {
   return (
     <div className="card-grid">
       {Array.isArray(cards) &&
-        cards.map((card) => (
+        cards.map((card, index) => (
           <Card
+            key={index}
             image={card.image}
             name={card.name}
             type={card.type}
