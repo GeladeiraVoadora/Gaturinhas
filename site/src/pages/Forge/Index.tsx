@@ -25,7 +25,7 @@ export const Forge: React.FC = () => {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:3030/usuario/${userId}/money`)
+      axios.get(`http://localhost:3030/api/usuario/${userId}/money`)
         .then(response => {
           setUser(response.data);
         })
@@ -63,7 +63,7 @@ export const Forge: React.FC = () => {
               price = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
             }
 
-            axios.post(`http://localhost:3030/gaturinha/${userId}`, {
+            axios.post(`http://localhost:3030/api/gaturinha/${userId}`, {
               name: values.name,
               image: values.image,
               price: price,

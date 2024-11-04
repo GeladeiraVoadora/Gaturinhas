@@ -21,7 +21,7 @@ const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacId, image, name,
       return;
     }
 
-    axios.post("http://localhost:3030/compra/Pac", {
+    axios.post("http://localhost:3030/api/compra/Pac", {
       pacId: pacId,
       email: email
     })

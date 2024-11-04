@@ -10,7 +10,7 @@ export const Button: React.FC = () => {
       return;
     }
 
-    Axios.get(`http://localhost:3030/daily/${userId}/lastClickedDate`)
+    Axios.get(`http://localhost:3030/api/coins/daily/${userId}/lastClickedDate`)
       .then((response) => {
         const lastClickedDate: string = response.data.click;
         const today = new Date().toISOString().slice(0, 10);
@@ -32,13 +32,13 @@ export const Button: React.FC = () => {
       return;
     }
 
-    Axios.put(`http://localhost:3030/daily/${userId}`, { money: 10 })
+    Axios.put(`http://localhost:3030/api/coins/daily/${userId}`, { money: 10 })
       .then(() => {
         alert("Coins obtained!");
         setDisabled(true);
         const today = new Date().toISOString().slice(0, 10);
 
-        Axios.put(`http://localhost:3030/daily/${userId}/UpdatelastClickedDate`, { click: today });
+        Axios.put(`http://localhost:3030/api/coins/daily/${userId}/UpdatelastClickedDate`, { click: today });
       })
       .catch((error) => {
         console.error(error);

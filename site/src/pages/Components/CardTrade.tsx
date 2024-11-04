@@ -14,7 +14,7 @@ const Card: React.FC<CardProps> = ({ amount, image, name, prodIds }) => {
   const invId = parseInt(localStorage.getItem('invId') || "0", 10);
 
   const handleTrade = () => {
-    axios.post(`http://localhost:3030/tradeCards`, {
+    axios.post(`http://localhost:3030/api/tradeCards`, {
       prodIds: prodIds,
       invId: invId
     })
@@ -30,7 +30,7 @@ const Card: React.FC<CardProps> = ({ amount, image, name, prodIds }) => {
   };
 
   const handleTradeEqual = () => {
-    axios.post(`http://localhost:3030/tradeCards/equal`, {
+    axios.post(`http://localhost:3030/api/tradeCards/equal`, {
       prodIds: prodIds,
       invId: invId
     })

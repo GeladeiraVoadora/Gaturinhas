@@ -14,7 +14,7 @@ export const Store: React.FC = () => {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:3030/usuario/${userId}/money`)
+      axios.get(`http://localhost:3030/api/usuario/${userId}/money`)
         .then(response => {
           setUser(response.data);
         })

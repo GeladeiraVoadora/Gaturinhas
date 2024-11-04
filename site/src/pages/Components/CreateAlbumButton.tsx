@@ -13,7 +13,7 @@ export const CreateAlbumButton: React.FC = () => {
       return;
     }
 
-    Axios.post('http://localhost:3030/album/create', {
+    Axios.post('http://localhost:3030/api/album/create', {
       userId: userId,
     })
     .then((response) => {

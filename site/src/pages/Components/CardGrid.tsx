@@ -25,8 +25,8 @@ const Grid: React.FC = () => {
 
   useEffect(() => {
     console.log("Fetching cards and sticker packs...");
-    const cardPromise = axios.get("http://localhost:3030/gatex");
-    const stickerPackPromise = axios.get("http://localhost:3030/stickerPackStore");
+    const cardPromise = axios.get("http://localhost:3030/api/gatex");
+    const stickerPackPromise = axios.get("http://localhost:3030/api/stickerPackStore");
 
     Promise.all([cardPromise, stickerPackPromise])
       .then(([cardResponse, stickerPackResponse]) => {

@@ -17,7 +17,7 @@ const CardGridAlbum: React.FC = () => {
 
   useEffect(() => {
     console.log("Fetching cards...");
-    Axios.get(`http://localhost:3030/album/${userId}`)
+    Axios.get(`http://localhost:3030/api/album/${userId}`)
       .then((response) => {
         setCards(response.data.gaturinhas);
         console.log(response);

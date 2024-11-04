@@ -26,7 +26,7 @@ const CardGridInv: React.FC = () => {
   useEffect(() => {
     console.log("Fetching cards...");
     
-    Axios.get(`http://localhost:3030/inventario/${invId}`)
+    Axios.get(`http://localhost:3030/api/inventario/${invId}`)
       .then((response) => {
         console.log(response);
         setCards(response.data.reverse());
@@ -35,7 +35,7 @@ const CardGridInv: React.FC = () => {
         console.log(error);
       });
 
-    Axios.get(`http://localhost:3030/inventario/Pac/${invId}`)
+    Axios.get(`http://localhost:3030/api/inventario/Pac/${invId}`)
       .then((response) => {
         setStickerPack(response.data.reverse());
       })

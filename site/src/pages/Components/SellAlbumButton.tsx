@@ -15,7 +15,7 @@ export const SellAlbumButton: React.FC = () => {
       return;
     }
 
-    Axios.post("http://localhost:3030/album/sell", {
+    Axios.post("http://localhost:3030/api/album/sell", {
       userId: userId,
     })
     .then((response) => {

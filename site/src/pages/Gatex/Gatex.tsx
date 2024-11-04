@@ -20,7 +20,7 @@ const Gatex: React.FC = () => {
 
   useEffect(() => {
     console.log("Fetching cards...");
-    Axios.get("http://localhost:3030/gatex")
+    Axios.get("http://localhost:3030/api/gatex")
       .then((response) => {
         setCards(response.data);
         console.log(response.data);

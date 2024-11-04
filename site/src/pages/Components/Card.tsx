@@ -21,7 +21,7 @@ const Card: React.FC<CardProps> = ({ gatId, image, name, price }) => {
       return;
     }
     
-    axios.post("http://localhost:3030/compra", {
+    axios.post("http://localhost:3030/api/compra", {
       gatId,
       email
     })

@@ -12,7 +12,7 @@ const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacprodId, image, n
   const invId = parseInt(localStorage.getItem('invId') || "0", 10);
 
   const handleAllOpen = () => {
-    axios.post(`http://localhost:3030/openAllPacks`, {
+    axios.post(`http://localhost:3030/api/openAllPacks`, {
       invId: invId
     })
     .then(response => {
@@ -28,7 +28,7 @@ const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacprodId, image, n
   };
 
   const handleOpen = () => {
-    axios.post(`http://localhost:3030/openpack/`, {
+    axios.post(`http://localhost:3030/api/openpack/`, {
       pacprodId: pacprodId,
       invId: invId
     })

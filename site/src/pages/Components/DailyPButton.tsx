@@ -11,7 +11,7 @@ export const Button: React.FC = () => {
       return;
     }
 
-    Axios.get(`http://localhost:3030/dailyP/${userId}/lastClickedDate`)
+    Axios.get(`http://localhost:3030/api/dailyP/${userId}/lastClickedDate`)
       .then((response) => {
         const lastClickedDate: string = response.data.clickb;
         console.log(lastClickedDate);
@@ -35,7 +35,7 @@ export const Button: React.FC = () => {
       return;
     }
 
-    Axios.put(`http://localhost:3030/dailyP/${invId}`)
+    Axios.put(`http://localhost:3030/api/dailyP/${invId}`)
       .then((response) => {
         console.log(response);
         alert("Cards obtained");
@@ -44,7 +44,7 @@ export const Button: React.FC = () => {
         const today = new Date().toISOString().slice(0, 10);
         console.log(today);
 
-        Axios.put(`http://localhost:3030/dailyP/${userId}/UpdatelastClickedDate`, { clickb: today });
+        Axios.put(`http://localhost:3030/api/dailyP/${userId}/UpdatelastClickedDate`, { clickb: today });
       })
       .catch((error) => {
         console.error(error);

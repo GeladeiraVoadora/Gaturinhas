@@ -19,7 +19,7 @@ const TradeCardGrid: React.FC = () => {
 
   useEffect(() => {
     console.log("Fetching cards...");
-    Axios.get(`http://localhost:3030/trade/${invId}`)
+    Axios.get(`http://localhost:3030/api/trade/${invId}`)
       .then((response) => {
         setCards(response.data);
         if (response.data.length > 0) {

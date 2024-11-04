@@ -12,7 +12,7 @@ export const Button: React.FC = () => {
       return;
     }
 
-    Axios.get(`http://localhost:3030/album/${userId}/lastClickedDate`)
+    Axios.get(`http://localhost:3030/api/album/${userId}/lastClickedDate`)
       .then((response) => {
         const lastClickedDate: string = response.data.catFed;
         const today = new Date().toISOString().slice(0, 10);
@@ -34,7 +34,7 @@ export const Button: React.FC = () => {
       return;
     }
 
-    Axios.put(`http://localhost:3030/album/feed/${userId}`)
+    Axios.put(`http://localhost:3030/api/album/feed/${userId}`)
       .then((response) => {
         if (response.data === true) {
           audio.play();
@@ -42,7 +42,7 @@ export const Button: React.FC = () => {
 
           setDisabled(true);
           const today = new Date().toISOString().slice(0, 10);
-          Axios.put(`http://localhost:3030/album/${userId}/UpdatelastClickedDate`, { catFed: today });
+          Axios.put(`http://localhost:3030/api/album/${userId}/UpdatelastClickedDate`, { catFed: today });
         } else {
           alert("Gaturinhas Insuficientes para alimentar!");
         }

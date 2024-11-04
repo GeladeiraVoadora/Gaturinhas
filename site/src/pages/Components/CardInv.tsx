@@ -20,7 +20,7 @@ const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
       return;
     }
 
-    axios.put(`http://localhost:3030/album/stick/${userId}`, {
+    axios.put(`http://localhost:3030/api/album/stick/${userId}`, {
       prodId: prodId,
     })
     .then(response => {
@@ -44,7 +44,7 @@ const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
   //       navigate('/');
   //       return;
   //   }
-  //   axios.put(`http://localhost:3030/album/stick/${userId}`, {
+  //   axios.put(`http://localhost:3030/api/album/stick/${userId}`, {
   //     prodId: prodId,
   //   })
   //   .then(response => {
