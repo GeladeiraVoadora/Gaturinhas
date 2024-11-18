@@ -82,10 +82,6 @@ export class GaturinhaService implements IGaturinhaService {
   sellGaturinha(prodId: number): Promise<boolean | { error: string; }> {
     throw new Error("Method not implemented.");
   }
-
-  addToCemiterio(gatId: number): Promise<boolean | { error: string; }> {
-    throw new Error("Method not implemented.");
-  }
   
   ressuscitaGaturinha(gatId: number, email: string): Promise<boolean | { error: string; }> {
     throw new Error("Method not implemented.");

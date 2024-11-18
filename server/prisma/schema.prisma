@@ -25,6 +25,7 @@ model usuario {
   album      album?
   click      String?
   clickb     String?
+  cemiterio  cemiterio?
 }
 
 model gaturinha {
@@ -36,6 +37,7 @@ model gaturinha {
   type      String
   desc      String
   gatProdEx gaturinha_product[]
+  gatFalecido gatinhoFalecido[]
 }
 
 model gaturinha_product {
@@ -85,4 +87,19 @@ model album {
   gat_prod gaturinha_product[]
   price    Int                 @default(10000)
   catFed  String?
+}
+
+model gatinhoFalecido { // semelhante ao gaturinha product, só que sendo somente para cemitério.
+  listaId      Int          @id @default(autoincrement())
+  gat          gaturinha    @relation(fields: [gatId], references: [gatId], onDelete: Cascade, onUpdate: Cascade)
+  gatId        Int
+  cemiterio    cemiterio    @relation(fields: [cemiterioId], references: [cemiterioId], onDelete: Cascade, onUpdate: Cascade)
+  cemiterioId  Int
+}
+
+model cemiterio {
+  cemiterioId  Int                          @id @default(autoincrement())
+  user         usuario                      @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  userId       Int                          @unique
+  listaGats    gatinhoFalecido[]
 }
