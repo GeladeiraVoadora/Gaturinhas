@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import '../../index.css';
 
@@ -10,6 +10,17 @@ interface StickerPackStoreProps {
 
 const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacprodId, image, name }) => {
   const invId = parseInt(localStorage.getItem('invId') || "0", 10);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const handleAllOpen = () => {
     axios.post(`http://localhost:3030/api/openAllPacks`, {
@@ -17,13 +28,13 @@ const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacprodId, image, n
     })
     .then(response => {
       console.log(invId);
-      alert("Você acabou de abrir os pacotes, cuidado com a enxurrada de figurinhas!");
+      openModal("Você acabou de abrir os pacotes, cuidado com a enxurrada de figurinhas!");
       console.log(response.data);
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 2000);
     })
     .catch(error => {
       console.log(error);
-      alert("Ocorreu um erro ao abrir os pacotes");
+      openModal("Ocorreu um erro ao abrir os pacotes");
     });
   };
 
@@ -35,13 +46,13 @@ const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacprodId, image, n
     .then(response => {
       console.log(pacprodId);
       console.log(invId);
-      alert("Você acabou de abrir o pacote, dê uma olhada nas suas novas figurinhas!");
+      openModal("Você acabou de abrir o pacote, dê uma olhada nas suas novas figurinhas!");
       console.log(response.data);
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 2000);
     })
     .catch(error => {
       console.log(error);
-      alert("Ocorreu um erro ao abrir o pacote");
+      openModal("Ocorreu um erro ao abrir o pacote");
     });
   };
 
@@ -51,6 +62,15 @@ const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacprodId, image, n
       <h3>{name}</h3>
       <button onClick={handleOpen}>Abrir</button>
       <button onClick={handleAllOpen}>Abrir todos</button>
+
+      {modalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={closeModal} className="modal-close">Fechar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
