@@ -1,7 +1,8 @@
 import './App.css';
 import React from 'react';
-import { Login } from './pages/Authentication/Login';
 import { Routes, Route } from 'react-router-dom';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
 import Store from './pages/Store/Store';
 import Home from './pages/Home/Home';
 import Inventory from './pages/Invetory/Inventory';
@@ -15,6 +16,7 @@ const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/store" element={<Store />} />
       <Route path="/home" element={<Home />} />
       <Route path="/inventory" element={<Inventory />} />

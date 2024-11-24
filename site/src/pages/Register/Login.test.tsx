@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Login from './Login';
+import Login from './Register';
 import Axios from 'axios';
 
 jest.mock('axios'); // Mock do Axios para evitar chamadas reais à API
