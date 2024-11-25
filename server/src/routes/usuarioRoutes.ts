@@ -1,16 +1,20 @@
 import { Router } from "express";
 
-import UsuarioController from "../controllers/UsuarioController";
+import usuarioController from "../controllers/usuarioController";
 
 const usuarioRouter = Router();
 
-usuarioRouter.post("/usuario", UsuarioController.createUsuario);
-usuarioRouter.get("/usuarios", UsuarioController.findAllUsuarios);
-usuarioRouter.get("/usuario/:userId", UsuarioController.findUsuario);
-usuarioRouter.put("/usuario/:userId", UsuarioController.updateUsuario);
-usuarioRouter.delete("/usuario/:userId", UsuarioController.deleteUsuario);
-usuarioRouter.get("/usuario/:userId/money", UsuarioController.findMoney);
+usuarioRouter.post("/usuario", usuarioController.createUsuario);
+usuarioRouter.get("/usuarios", usuarioController.findAllUsuarios);
+usuarioRouter.get("/usuario/:userId", usuarioController.findUsuario);
+usuarioRouter.put("/usuario/:userId", usuarioController.updateUsuario);
+usuarioRouter.delete("/usuario/:userId", usuarioController.deleteUsuario);
+usuarioRouter.get("/usuario/:userId/money", usuarioController.findMoney);
 
-usuarioRouter.post("/login", UsuarioController.login);
+usuarioRouter.post("/login", usuarioController.login);
+
+// amigos
+usuarioRouter.post("/usuario/:userId/addFriend", usuarioController.addFriend);
+usuarioRouter.post("/usuario/:userId/removeFriend", usuarioController.removeFriend);
 
 export { usuarioRouter };

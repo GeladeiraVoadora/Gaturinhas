@@ -133,4 +133,40 @@ export default {
 
     return invent;
   },
+
+  async addFriend(userId: number, friendId: number) {
+    // Verifica se ambos os usuários existem
+    const user = await prisma.usuario.findUnique({ where: { userId } });
+    const friend = await prisma.usuario.findUnique({ where: { userId: friendId } });
+  
+    if (!user || !friend) throw new Error("Um ou ambos os usuários não foram encontrados");
+  
+    // Adiciona o amigo à lista de `friends`
+    return prisma.usuario.update({
+      where: { userId },
+      data: {
+        friends: {
+          connect: { userId: friendId },
+        },
+      },
+    });
+  },
+
+  async removeFriend(userId: number, friendId: number) {
+    // Verifica se ambos os usuários existem
+    const user = await prisma.usuario.findUnique({ where: { userId } });
+    const friend = await prisma.usuario.findUnique({ where: { userId: friendId } });
+  
+    if (!user || !friend) throw new Error("Um ou ambos os usuários não foram encontrados");
+  
+    // Remove o amigo da lista de `friends`
+    return prisma.usuario.update({
+      where: { userId },
+      data: {
+        friends: {
+          disconnect: { userId: friendId },
+        },
+      },
+    });
+  }
 };

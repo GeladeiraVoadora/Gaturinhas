@@ -78,4 +78,28 @@ export default {
       res.status(400).json({ error: error.message });
     }
   },
+
+  async addFriend(req: any, res: any) {
+    try {
+      const userId = Number(req.params.userId);
+      const friendId = Number(req.body.friendId);
+  
+      const result = await usuarioService.addFriend(userId, friendId);
+      res.json(result);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+
+  async removeFriend(req: any, res: any) {
+    try {
+      const userId = Number(req.params.userId);
+      const friendId = Number(req.body.friendId);
+  
+      const result = await usuarioService.removeFriend(userId, friendId);
+      res.json(result);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 };
