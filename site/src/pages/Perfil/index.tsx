@@ -1,5 +1,5 @@
-import React from "react";
-import Navbar from '../Components/Navbar';
+import React, { useState } from "react";
+import Navbar from "../Components/Navbar";
 import "../../index.css";
 
 interface Friend {
@@ -15,9 +15,11 @@ interface Album {
 }
 
 const Profile: React.FC = () => {
+  const [name, setName] = useState<string | null>(null);
+  const [bio, setBio] = useState("A passionate sticker collector and trader.");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const userData = {
-    name: "John Doe",
-    bio: "A passionate sticker collector and trader.",
     friends: [
       { id: 1, name: "Alice", image: "https://via.placeholder.com/100" },
       { id: 2, name: "Bob", image: "https://via.placeholder.com/100" },
@@ -29,17 +31,22 @@ const Profile: React.FC = () => {
     ],
   };
 
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleSave = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="profile-container">
       <Navbar />
       <div className="profile-header">
-        <img
-          src="https://via.placeholder.com/150"
-          alt="User Avatar"
-          className="profile-avatar"
-        />
-        <h1 className="profile-name">{userData.name}</h1>
-        <p className="profile-bio">{userData.bio}</p>
+        <h2 className="profile-name">{name || "Nome de usuário"}</h2>
+        <p className="profile-bio">{bio}</p>
+        <button className="edit-button" onClick={handleOpenModal}>
+          Editar Perfil
+        </button>
       </div>
 
       <div className="profile-section">
@@ -73,6 +80,37 @@ const Profile: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Editar Perfil</h2>
+            <div className="modal-field">
+              <label htmlFor="modal-name">Nome:</label>
+              <input
+                type="text"
+                id="modal-name"
+                value={name || ""}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="modal-field">
+              <label htmlFor="modal-bio">Bio:</label>
+              <textarea
+                id="modal-bio"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+              />
+            </div>
+            <button className="save-button" onClick={handleSave}>
+              Salvar
+            </button>
+            <button className="cancel-button" onClick={handleCloseModal}>
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
