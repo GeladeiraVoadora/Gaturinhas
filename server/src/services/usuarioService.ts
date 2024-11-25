@@ -66,6 +66,10 @@ export default {
   async findUsuario(userId: number) {
     const usuario = await prisma.usuario.findUnique({
       where: { userId },
+      include: {
+        album: true,
+        friends: true,
+      }
     });
     if (!usuario) throw new Error("Usuário não encontrado");
 
