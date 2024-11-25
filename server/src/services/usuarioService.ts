@@ -50,8 +50,11 @@ export default {
     
     const token = jwt.sign({ userId: usuario.userId }, process.env.JWT_SECRET!);
     
-    console.log(usuario);
-    return { token, usuario, invId: invId.invId };
+    return { result: comparaSenha,
+      email,
+      userId: usuario.userId,
+      invId: invId.invId,
+      token, };
   },
 
   // Achar todos os usuários
