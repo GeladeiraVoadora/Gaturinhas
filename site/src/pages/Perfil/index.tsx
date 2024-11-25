@@ -11,9 +11,10 @@ interface Friend {
 }
 
 interface Album {
-  id: number;
-  title: string;
+  name: string;
   image: string;
+  type: string;
+  desc: string;
 }
 
 const Profile: React.FC = () => {
@@ -25,21 +26,12 @@ const Profile: React.FC = () => {
     money: 0,
     created_at: "",
     email: "",
+    friends: [] as Friend[],
   });
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState<string>("Nome de usuário");
   const [bio, setBio] = useState<string>("Bio não informada");
-
-  const friends: Friend[] = [
-    { id: 1, name: "Alice", image: "https://via.placeholder.com/100" },
-    { id: 2, name: "Bob", image: "https://via.placeholder.com/100" },
-    { id: 3, name: "Charlie", image: "https://via.placeholder.com/100" },
-  ];
-
-  const albums: Album[] = [
-    { id: 1, title: "Album 1", image: "https://via.placeholder.com/150" },
-    { id: 2, title: "Album 2", image: "https://via.placeholder.com/150" },
-  ];
 
   useEffect(() => {
     if (!userId) {
@@ -59,6 +51,7 @@ const Profile: React.FC = () => {
           money: data.money || 0,
           created_at: data.created_at || "",
           email: data.email || "",
+          friends: data.friends || [],
         });
         setName(data.name || "Nome de usuário");
         setBio(data.bio || "Bio não informada");
@@ -69,7 +62,24 @@ const Profile: React.FC = () => {
       }
     };
 
+    const fetchUserAlbums = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3030/api/album/${userId}`);
+        const data = response.data;
+
+        // Ajusta para acessar o array 'gaturinhas'
+        if (data.result && Array.isArray(data.gaturinhas)) {
+          setAlbums(data.gaturinhas);
+        } else {
+          console.warn("Formato inesperado de resposta para álbuns:", data);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar álbuns do usuário:", error);
+      }
+    };
+
     fetchUserData();
+    fetchUserAlbums();
   }, [userId]);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -120,32 +130,38 @@ const Profile: React.FC = () => {
       <div className="profile-section">
         <h2 className="section-title">Amigos</h2>
         <div className="friends-list">
-          {friends.map((friend: Friend) => (
-            <div key={friend.id} className="friend-item">
-              <img
-                src={friend.image}
-                alt={friend.name}
-                className="friend-avatar"
-              />
-              <p>{friend.name}</p>
-            </div>
-          ))}
+          {userData.friends.length > 0 ? (
+            userData.friends.map((friend: Friend) => (
+              <div key={friend.id} className="friend-item">
+                <img
+                  src={friend.image}
+                  alt={friend.name}
+                  className="friend-avatar"
+                />
+                <p>{friend.name}</p>
+              </div>
+            ))
+          ) : (
+            <p>Você ainda não tem amigos cadastrados.</p>
+          )}
         </div>
       </div>
 
       <div className="profile-section">
         <h2 className="section-title">Álbuns</h2>
         <div className="albums-list">
-          {albums.map((album: Album) => (
-            <div key={album.id} className="album-item">
-              <img
-                src={album.image}
-                alt={album.title}
-                className="album-image"
-              />
-              <p>{album.title}</p>
-            </div>
-          ))}
+          {albums.length > 0 ? (
+            albums.map((album, index) => (
+              <div key={index} className="album-item">
+                <img src={album.image} alt={album.name} className="album-image" />
+                <h3>{album.name}</h3>
+                <p>Tipo: {album.type}</p>
+                <p>{album.desc}</p>
+              </div>
+            ))
+          ) : (
+            <p>Nenhum álbum encontrado.</p>
+          )}
         </div>
       </div>
 
