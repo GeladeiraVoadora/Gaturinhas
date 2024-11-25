@@ -73,17 +73,28 @@ export default {
   },
 
   // Atualizar informações do usuário
-  async updateUsuario(userId: number, data: { name?: string; email?: string; password?: string }) {
+  async updateUsuario(
+    userId: number,
+    data: { name?: string; email?: string; password?: string; bio?: string }
+  ) {
+    // Verifica se o usuário existe
     let usuario = await prisma.usuario.findUnique({ where: { userId } });
     if (!usuario) throw new Error("Usuário não encontrado");
 
+    // Hash da senha, se necessário
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 8);
     }
 
+    // Atualiza os campos permitidos
     usuario = await prisma.usuario.update({
       where: { userId },
-      data,
+      data: {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        bio: data.bio,
+      },
     });
 
     return usuario;
