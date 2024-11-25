@@ -20,7 +20,7 @@ const Cemetery: React.FC = () => {
       .then((response) => {
         // Filtra apenas as figurinhas deletadas (simulação)
         const deletedItems = response.data.filter(
-          (card: CardData) => card.type === "Deleted" // Simulando itens deletados
+          (card: CardData) => card.type === "Deleted" 
         );
         setDeletedCards(deletedItems);
       })
@@ -31,7 +31,7 @@ const Cemetery: React.FC = () => {
 
   const handleRecover = (gatId: number) => {
     console.log(`Recovering card with ID ${gatId}...`);
-    // Aqui poderia ir uma requisição para recuperar o item, se a API suportar
+    // Aqui poderia ir uma requisição para recuperar o item
     setDeletedCards((prevCards) =>
       prevCards.filter((card) => card.gatId !== gatId)
     );
