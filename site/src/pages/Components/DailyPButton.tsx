@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import "../../index.css";
 
 export const Button: React.FC = () => {
   const [disabled, setDisabled] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -25,6 +37,7 @@ export const Button: React.FC = () => {
       })
       .catch((error) => {
         console.error(error);
+        openModal("Erro ao verificar o estado do pacote diário.");
       });
   }, []);
 
@@ -32,22 +45,23 @@ export const Button: React.FC = () => {
     const userId = localStorage.getItem("userId");
     const invId = localStorage.getItem("invId");
     if (!invId || !userId) {
+      openModal("Usuário ou inventário não encontrados.");
       return;
     }
 
     Axios.put(`http://localhost:3030/api/dailyP/${invId}`)
       .then((response) => {
         console.log(response);
-        alert("Cards obtained");
+        openModal("Cartas obtidas com sucesso!");
 
         setDisabled(true);
         const today = new Date().toISOString().slice(0, 10);
-        console.log(today);
 
         Axios.put(`http://localhost:3030/api/dailyP/${userId}/UpdatelastClickedDate`, { clickb: today });
       })
       .catch((error) => {
         console.error(error);
+        openModal("Erro ao coletar o pacote diário.");
       });
   };
 
@@ -56,6 +70,15 @@ export const Button: React.FC = () => {
       <button disabled={disabled} onClick={CollectPackage}>
         Collect your daily package
       </button>
+
+      {modalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={closeModal} className="modal-close">Fechar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

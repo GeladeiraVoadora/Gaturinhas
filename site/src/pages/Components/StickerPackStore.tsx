@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../../index.css';
@@ -13,10 +13,21 @@ interface StickerPackStoreProps {
 const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacId, image, name, price }) => {
   const email = localStorage.getItem('email');
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const handleBuy = () => {
     if (!email) {
-      alert('Você deve estar logado para realizar a compra');
+      openModal('Você deve estar logado para realizar a compra');
       navigate('/');
       return;
     }
@@ -25,19 +36,19 @@ const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacId, image, name,
       pacId: pacId,
       email: email
     })
-    .then(response => {
-      if (response.data === false) { 
-        alert("Você não tem dinheiro suficiente para comprar o pacote de figurinhas");
-      } else {
-        alert("Compra realizada");
-      }
-      console.log(response.data);
-      window.location.reload();
-    })
-    .catch(error => {
-      console.log(error);
-      alert("Ocorreu um erro ao realizar a compra");
-    });
+      .then(response => {
+        if (response.data === false) {
+          openModal("Você não tem dinheiro suficiente para comprar o pacote de figurinhas");
+        } else {
+          openModal("Compra realizada");
+          setTimeout(() => window.location.reload(), 2000);
+        }
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+        openModal("Ocorreu um erro ao realizar a compra");
+      });
   };
 
   return (
@@ -46,6 +57,15 @@ const StickerPackStore: React.FC<StickerPackStoreProps> = ({ pacId, image, name,
       <h3>{name}</h3>
       <p>{price}</p>
       <button onClick={handleBuy}>Buy</button>
+
+      {modalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={closeModal} className="modal-close">Fechar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

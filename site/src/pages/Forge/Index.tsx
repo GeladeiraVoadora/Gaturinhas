@@ -1,6 +1,6 @@
 import './Style.css';
 import Navbar from '../Components/Navbar';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
@@ -22,6 +22,17 @@ export const Forge: React.FC = () => {
   const userId = parseInt(localStorage.getItem('userId') || '0', 10);
   const [user, setUser] = useState<User | null>(null);
   const [audio] = useState(new Audio(audioFile));
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     if (userId) {
@@ -48,19 +59,25 @@ export const Forge: React.FC = () => {
           validationSchema={Yup.object({
             name: Yup.string().required('Required'),
             image: Yup.string().required('Required'),
-            type: Yup.string().oneOf(['Common', 'Rare', 'Epic', 'Legendary'], 'Invalid Type').required('Required'),
+            type: Yup.string()
+              .oneOf(['Common', 'Rare', 'Epic', 'Legendary'], 'Invalid Type')
+              .required('Required'),
             description: Yup.string().required('Required'),
           })}
           onSubmit={(values, { setSubmitting }) => {
             let price: number;
-            if (values.type === 'Common') {
-              price = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
-            } else if (values.type === 'Rare') {
-              price = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
-            } else if (values.type === 'Epic') {
-              price = Math.floor(Math.random() * (150 - 100 + 1)) + 100;
-            } else {
-              price = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+            switch (values.type) {
+              case 'Common':
+                price = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+                break;
+              case 'Rare':
+                price = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
+                break;
+              case 'Epic':
+                price = Math.floor(Math.random() * (150 - 100 + 1)) + 100;
+                break;
+              default:
+                price = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
             }
 
             axios.post(`http://localhost:3030/api/gaturinha/${userId}`, {
@@ -68,25 +85,26 @@ export const Forge: React.FC = () => {
               image: values.image,
               price: price,
               type: values.type,
-              desc: values.description
+              desc: values.description,
             })
               .then(response => {
                 if (response.data === false) {
-                  alert("Você não tem dinheiro suficiente para criar uma gaturinha");
+                  openModal("Você não tem dinheiro suficiente para criar uma gaturinha");
                 } else {
                   audio.play();
-                  alert("Você criou sua figurinha");
+                  openModal("Você criou sua figurinha!");
                 }
                 setSubmitting(false);
               })
               .catch(error => {
                 console.log(error);
                 setSubmitting(false);
+                openModal("Ocorreu um erro ao criar sua figurinha");
               });
           }}
         >
-          {({ isSubmitting }) => (
-            <Form>
+          {({ handleSubmit, isSubmitting }) => (
+            <form onSubmit={handleSubmit}>
               <label htmlFor="name">Name</label>
               <Field type="text" id="name" name="name" placeholder="Gato Exemplo" />
               <ErrorMessage component="span" name="name" className="form-error" />
@@ -110,9 +128,18 @@ export const Forge: React.FC = () => {
               <ErrorMessage component="span" name="description" className="form-error" />
 
               <button type="submit" disabled={isSubmitting}>Forge</button>
-            </Form>
+            </form>
           )}
         </Formik>
+
+        {modalOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <p>{modalMessage}</p>
+              <button onClick={closeModal} className="modal-close">Fechar</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
