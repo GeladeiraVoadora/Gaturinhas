@@ -132,16 +132,91 @@ h1{
 }
 
 .switch-link {
+  font-family: 'Itim', cursive;
   display: block;
   text-align: center;
   margin-top: 15px;
   font-size: 14px;
   text-decoration: none;
-  color: #4caf50;
+  color: #FF5112;
   transition: color 0.3s ease;
 }
 
 .switch-link:hover {
-  color: #45a049;
+  color: #FF5112;
 }
 
+.profile-container {
+  font-family: 'Itim', cursive;
+  padding: 20px;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid #FF5112;
+  margin-bottom: 10px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.profile-bio {
+  font-size: 16px;
+  color: #555;
+}
+
+.profile-section {
+  margin-top: 30px;
+}
+
+.section-title {
+  font-size: 20px;
+  color: #FF5112;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.friends-list,
+.albums-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.friend-item,
+.album-item {
+  text-align: center;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.friend-avatar,
+.album-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 2px solid #FF5112;
+}
+
+.friend-item p,
+.album-item p {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+}

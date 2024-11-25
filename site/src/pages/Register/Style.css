@@ -137,11 +137,11 @@ h1{
   margin-top: 15px;
   font-size: 14px;
   text-decoration: none;
-  color: #4caf50;
+  color: #FF5112;
   transition: color 0.3s ease;
 }
 
 .switch-link:hover {
-  color: #45a049;
+  color: #FF5112;
 }
 

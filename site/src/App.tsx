@@ -11,6 +11,7 @@ import Cemetery from './pages/Cemetery/cemetery';
 import Gatex from './pages/Gatex/Gatex';
 import Album from './pages/Album/Album';
 import Forge from './pages/Forge/Index';
+import Perfil from './pages/Perfil/index';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
       <Route path="/cemetery" element={<Cemetery />} />
       <Route path="/gatex" element={<Gatex />} />
       <Route path="/forge" element={<Forge />} />
+      <Route path="/perfil" element={<Perfil />} />
     </Routes>
   );
 };
