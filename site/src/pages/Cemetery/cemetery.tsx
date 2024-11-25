@@ -1,12 +1,12 @@
 import React from 'react';
-import CardGrid from '../Components/CardGrid';
+import CemeteryComponente from '../Components/Cemetery';
 import Navbar from '../Components/Navbar';
 
 export const Cemetery: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <CardGrid />
+      <CemeteryComponente />
     </div>
   );
 };
