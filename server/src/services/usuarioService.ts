@@ -39,17 +39,18 @@ export default {
   async login(email: string, password: string) {
     const usuario = await prisma.usuario.findUnique({ where: { email } });
     if (!usuario) throw new Error("Usuário não encontrado");
-
+    
     const comparaSenha = await bcrypt.compare(password, usuario.password);
     if (!comparaSenha) throw new Error("Senha incorreta");
-
+    
     const invId = await prisma.inventario.findUnique({
       where: { userId: usuario.userId },
     });
     if (!invId) throw new Error("Inventário não encontrado");
-
+    
     const token = jwt.sign({ userId: usuario.userId }, process.env.JWT_SECRET!);
-
+    
+    console.log(usuario);
     return { token, usuario, invId: invId.invId };
   },
 

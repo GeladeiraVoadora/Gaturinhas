@@ -1,4 +1,4 @@
-import usuarioService from "../services/UsuarioService";
+import usuarioService from "../services/usuarioService";
 
 // Funções para a tabela usuário
 export default {
