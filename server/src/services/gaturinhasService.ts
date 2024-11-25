@@ -4,6 +4,7 @@ import { IGaturinhaService } from "./interfaces/IGaturinhaService";
 const prisma = new PrismaClient();
 
 export class GaturinhaService implements IGaturinhaService {
+
   async createGaturinha(userId: number, data: any): Promise<{ msg?: string; error?: string }> {
     const { name, image, price, type, desc } = data;
 
@@ -76,5 +77,17 @@ export class GaturinhaService implements IGaturinhaService {
     });
 
     return true;
+  }
+
+  sellGaturinha(prodId: number): Promise<boolean | { error: string; }> {
+    throw new Error("Method not implemented.");
+  }
+
+  addToCemiterio(gatId: number): Promise<boolean | { error: string; }> {
+    throw new Error("Method not implemented.");
+  }
+  
+  ressuscitaGaturinha(gatId: number, email: string): Promise<boolean | { error: string; }> {
+    throw new Error("Method not implemented.");
   }
 }
