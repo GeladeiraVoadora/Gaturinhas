@@ -5,9 +5,11 @@ import axios from "axios";
 import "../../index.css";
 
 interface Friend {
-  id: number;
-  name: string;
-  image: string;
+  userId: number;
+  email: string;
+  name: string | null;
+  created_at: string;
+  bio: string | null;
 }
 
 interface Album {
@@ -29,6 +31,7 @@ const Profile: React.FC = () => {
     friends: [] as Friend[],
   });
   const [albums, setAlbums] = useState<Album[]>([]);
+  const [newFriendId, setNewFriendId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState<string>("Nome de usuário");
   const [bio, setBio] = useState<string>("Bio não informada");
@@ -67,7 +70,6 @@ const Profile: React.FC = () => {
         const response = await axios.get(`http://localhost:3030/api/album/${userId}`);
         const data = response.data;
 
-        // Ajusta para acessar o array 'gaturinhas'
         if (data.result && Array.isArray(data.gaturinhas)) {
           setAlbums(data.gaturinhas);
         } else {
@@ -106,6 +108,34 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleAddFriend = async () => {
+    if (newFriendId === null) {
+      setModalMessage("Digite um ID válido para adicionar um amigo.");
+      setModalOpen(true);
+      return;
+    }
+
+    try {
+      await axios.post(`http://localhost:3030/api/usuario/${userId}/addFriend`, {
+        friendId: newFriendId,
+      });
+
+      setModalMessage("Amigo adicionado com sucesso!");
+      setModalOpen(true);
+
+      // Recarregar a lista de amigos
+      const response = await axios.get(`http://localhost:3030/api/usuario/${userId}`);
+      setUserData((prevData) => ({
+        ...prevData,
+        friends: response.data.friends || [],
+      }));
+    } catch (error) {
+      console.error("Erro ao adicionar amigo:", error);
+      setModalMessage("Erro ao adicionar amigo.");
+      setModalOpen(true);
+    }
+  };
+
   const handleModalClose = () => {
     setModalOpen(false);
     if (!userId) {
@@ -128,17 +158,28 @@ const Profile: React.FC = () => {
       </div>
 
       <div className="profile-section">
+        <h2 className="section-title">Adicionar Amigo</h2>
+        <div className="add-friend-form">
+          <input
+            type="number"
+            placeholder="Digite o ID do amigo"
+            value={newFriendId || ""}
+            onChange={(e) => setNewFriendId(parseInt(e.target.value, 10) || null)}
+          />
+          <button onClick={handleAddFriend}>Adicionar</button>
+        </div>
+      </div>
+
+      <div className="profile-section">
         <h2 className="section-title">Amigos</h2>
         <div className="friends-list">
           {userData.friends.length > 0 ? (
             userData.friends.map((friend: Friend) => (
-              <div key={friend.id} className="friend-item">
-                <img
-                  src={friend.image}
-                  alt={friend.name}
-                  className="friend-avatar"
-                />
-                <p>{friend.name}</p>
+              <div key={friend.userId} className="friend-item">
+                <p><strong>Nome:</strong> {friend.name || "Não informado"}</p>
+                <p><strong>Email:</strong> {friend.email}</p>
+                <p><strong>Bio:</strong> {friend.bio || "Sem bio disponível"}</p>
+                <p><strong>Adicionado em:</strong> {new Date(friend.created_at).toLocaleDateString()}</p>
               </div>
             ))
           ) : (
@@ -148,7 +189,7 @@ const Profile: React.FC = () => {
       </div>
 
       <div className="profile-section">
-        <h2 className="section-title">Álbuns</h2>
+        <h2 className="section-title">Álbum</h2>
         <div className="albums-list">
           {albums.length > 0 ? (
             albums.map((album, index) => (
@@ -167,36 +208,36 @@ const Profile: React.FC = () => {
 
       {isModalOpen && (
         <div className="modal-overlay">
-          <div className="modal">
-            <h2>Editar Perfil</h2>
-            <div className="modal-field">
-              <label htmlFor="modal-name">Nome:</label>
-              <input
-                type="text"
-                id="modal-name"
-                value={name || ""}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="modal-field">
-              <label htmlFor="modal-bio">Bio:</label>
-              <textarea
-                id="modal-bio"
-                value={bio || ""}
-                onChange={(e) => setBio(e.target.value)}
-              />
-            </div>
-            <button className="save-button" onClick={handleSave}>
-              Salvar
-            </button>
-            <button className="cancel-button" onClick={handleCloseModal}>
-              Cancelar
-            </button>
+        <div className="modal">
+          <h2>Editar Perfil</h2>
+          <div className="modal-field">
+            <label htmlFor="modal-name">Nome:</label>
+            <input
+              type="text"
+              id="modal-name"
+              value={name || ""}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
+          <div className="modal-field">
+            <label htmlFor="modal-bio">Bio:</label>
+            <textarea
+              id="modal-bio"
+              value={bio || ""}
+              onChange={(e) => setBio(e.target.value)}
+            />
+          </div>
+          <button className="save-button" onClick={handleSave}>
+            Salvar
+          </button>
+          <button className="cancel-button" onClick={handleCloseModal}>
+            Cancelar
+          </button>
         </div>
-      )}
+      </div>
+    )}
 
-      {modalOpen && (
+    {modalOpen && (
         <div className="modal-overlay">
           <div className="modal">
             <p>{modalMessage}</p>
