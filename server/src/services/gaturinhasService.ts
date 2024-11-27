@@ -1,9 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { IGaturinhaService } from "./interfaces/IGaturinhaService";
+import { ICoinService } from "./interfaces/ICoinService";
+import { ICemiterioService } from "./interfaces/ICemiterioService";
 
 const prisma = new PrismaClient();
 
 export class GaturinhaService implements IGaturinhaService {
+  private coinService!: ICoinService;
+  private CemiterioService!: ICemiterioService;
 
   async createGaturinha(userId: number, data: any): Promise<{ msg?: string; error?: string }> {
     const { name, image, price, type, desc } = data;
@@ -79,8 +83,26 @@ export class GaturinhaService implements IGaturinhaService {
     return true;
   }
 
-  sellGaturinha(prodId: number): Promise<boolean | { error: string; }> {
-    throw new Error("Method not implemented.");
+  async sellGaturinha(prodId: number, email: string): Promise<boolean | { error: string; }> {
+    const value = await prisma.gaturinha_product.findUnique({
+      where: { prodId },
+      include:{gat: { select:{ gatId: true , price: true }}},
+    });
+    const usuario = await prisma.usuario.findUnique({ where: { email } });
+
+    if (!usuario || !value) {
+      return { error: "Venda não autorizada. Verifique existência do usuário/gaturinha." };
+    }
+
+    const money = Number(value.gat.price)/2;
+
+    const moneyAdded = await this.coinService.addMoney(Number(usuario.userId), money);
+
+    const createGatinhoFalecido = this.CemiterioService.createGatinhoFalecido ( Number(usuario.userId), Number(value.gat.gatId))
+
+    const deletGat = await prisma.gaturinha_product.delete({where:{prodId}})
+
+    return true
   }
   
   ressuscitaGaturinha(gatId: number, email: string): Promise<boolean | { error: string; }> {
