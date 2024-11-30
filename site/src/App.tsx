@@ -12,6 +12,7 @@ import Gatex from './pages/Gatex/Gatex';
 import Album from './pages/Album/Album';
 import Forge from './pages/Forge/Index';
 import Perfil from './pages/Perfil/index';
+import Exodia from './pages/Exodia/index';
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
       <Route path="/gatex" element={<Gatex />} />
       <Route path="/forge" element={<Forge />} />
       <Route path="/perfil" element={<Perfil />} />
+      <Route path="/exodia" element={<Exodia />} />
     </Routes>
   );
 };

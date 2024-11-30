@@ -439,4 +439,75 @@
   .edit-button:hover {
     background-color: #0056b3;
   }
-  
+
+
+/* Exodia */
+
+.forge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Itim', cursive;
+  background-color: #f9f9f9;
+  padding: 0 20px;
+}
+
+
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.card-slot {
+  width: 90px;
+  height: 130px;
+  border: 2px dashed #8c8c8c;
+  border-radius: 10px;
+  background-color: #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Posicionamento das cartas */
+.solo {
+  grid-column: 2;
+}
+
+.duo-left {
+  grid-column: 1;
+  margin-top: -10px; /* Alinha melhor as cartas */
+}
+
+.duo-right {
+  grid-column: 3;
+  margin-top: -10px; /* Alinha melhor as cartas */
+}
+
+.trio-left {
+  grid-column: 1 / 2;
+}
+
+.trio-right {
+  grid-column: 3 / 4;
+}
+
+.forge-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #FF5112;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Itim', cursive;
+  margin-top: 15px;
+}
