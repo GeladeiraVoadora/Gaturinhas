@@ -104,8 +104,4 @@ export class GaturinhaService implements IGaturinhaService {
 
     return true
   }
-  
-  ressuscitaGaturinha(gatId: number, email: string): Promise<boolean | { error: string; }> {
-    throw new Error("Method not implemented.");
-  }
 }
