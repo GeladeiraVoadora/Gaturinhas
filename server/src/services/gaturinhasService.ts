@@ -6,8 +6,8 @@ import { ICemiterioService } from "./interfaces/ICemiterioService";
 const prisma = new PrismaClient();
 
 export class GaturinhaService implements IGaturinhaService {
-  private coinService!: ICoinService;
-  private CemiterioService!: ICemiterioService;
+  private readonly coinService!: ICoinService;
+  private readonly CemiterioService!: ICemiterioService;
 
   async createGaturinha(userId: number, data: any): Promise<{ msg?: string; error?: string }> {
     const { name, image, price, type, desc } = data;
@@ -94,13 +94,13 @@ export class GaturinhaService implements IGaturinhaService {
       return { error: "Venda não autorizada. Verifique existência do usuário/gaturinha." };
     }
 
-    const money = Number(value.gat.price)/2;
+    const money = Number(value.gat.price)/3;
 
-    const moneyAdded = await this.coinService.addMoney(Number(usuario.userId), money);
+    await this.coinService.addMoney(Number(usuario.userId), money);
 
-    const createGatinhoFalecido = this.CemiterioService.createGatinhoFalecido ( Number(usuario.userId), Number(value.gat.gatId))
+    this.CemiterioService.createGatinhoFalecido ( Number(usuario.userId), Number(value.gat.gatId))
 
-    const deletGat = await prisma.gaturinha_product.delete({where:{prodId}})
+    await prisma.gaturinha_product.delete({where:{prodId}})
 
     return true
   }

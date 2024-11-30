@@ -90,7 +90,7 @@ model album {
 }
 
 model gatinhoFalecido {
-  FalecidoId  Int       @id @default(autoincrement())
+  falecidoId  Int       @id @default(autoincrement())
   gat         gaturinha @relation(fields: [gatId], references: [gatId], onDelete: Cascade, onUpdate: Cascade)
   gatId       Int
   cemiterio   cemiterio @relation(fields: [cemiterioId], references: [cemiterioId], onDelete: Cascade, onUpdate: Cascade)

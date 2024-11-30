@@ -61,11 +61,11 @@ export class CemiterioService implements ICemiterioService {
    * Remove um gatinho do cemitério.
    */
   async removeToCemiterio(
-    FalecidoId: number
+    falecidoId: number
   ): Promise<boolean | { error: string }> {
     try {
       const gaturinha = await prisma.gatinhoFalecido.findFirst({
-        where: { FalecidoId },
+        where: { FalecidoId: falecidoId },
         include: { cemiterio: { select: { user: true } } },
       });
 
