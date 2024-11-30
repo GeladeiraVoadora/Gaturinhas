@@ -53,6 +53,7 @@ export default {
       return res.json({ error });
     }
   },
+
   async tradeCardsRandom(req: any, res: any) {
     try {
       const { prodIds, invId } = req.body;
@@ -150,4 +151,6 @@ export default {
       return res.json({ error: "Erro ao excluir ou criar a Gaturinha" });
     }
   },
+
+  //TODO: Trade with friends
 };
