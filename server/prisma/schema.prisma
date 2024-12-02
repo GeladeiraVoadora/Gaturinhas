@@ -93,6 +93,7 @@ model album {
   userId   Int                 @unique
   gat_prod gaturinha_product[]
   price    Int                 @default(10000)
+  exodiaCompleted Boolean         @default(false)
   catFed   String?
 }
 
