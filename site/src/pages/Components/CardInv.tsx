@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../../index.css';
+import audioFile from "../../Assets/GatoVendido.mp3";
 
 interface CardProps {
   prodId: number;
@@ -11,11 +12,13 @@ interface CardProps {
 
 const email = localStorage.getItem("email");
 
+
 const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
   const userId = parseInt(localStorage.getItem('userId') || "0", 10);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [audio] = useState(new Audio(audioFile));
 
   const openModal = (message: string) => {
     setModalMessage(message);
@@ -52,7 +55,7 @@ const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
 
   const vender = () => {
     if (!userId) {
-      openModal('Você deve estar logado para colar');
+      openModal('Você deve estar logado para vender');
       navigate('/');
       return;
     }
@@ -67,6 +70,7 @@ const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
       } else {
         openModal("Vendido!");
         setTimeout(() => window.location.reload(), 2000);
+        audio.play();
       }
     })
     .catch(error => {

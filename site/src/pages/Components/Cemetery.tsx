@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "../../index.css";
+import audioFile from "../../Assets/GatinhoRevivido.mp3";
 
 interface CardData {
   gatId: number;
@@ -14,6 +15,18 @@ const userId = localStorage.getItem("userId"); // Supondo que você armazene o I
 
 const Cemetery: React.FC = () => {
   const [deletedCards, setDeletedCards] = useState<CardData[]>([]);
+  const [audio] = useState(new Audio(audioFile));
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     console.log("Fetching deleted cards...");
@@ -46,6 +59,12 @@ const Cemetery: React.FC = () => {
         setDeletedCards((prevCards) =>
           prevCards.filter((card) => card.gatId !== gatId)
         );
+
+        // Reproduz o áudio
+        audio.play();
+
+        // Abre o modal
+        openModal("Você reviveu seu gatinho!");
       })
       .catch((error) => {
         console.log("Erro ao reviver o gatinho", error);
@@ -78,6 +97,16 @@ const Cemetery: React.FC = () => {
           </div>
         ))}
       </div>
+
+      {/* Modal Component */}
+      {modalOpen && (
+        <div className="modal-overlay">
+            <div className="modal-content">
+              <p>{modalMessage}</p>
+              <button onClick={closeModal} className="modal-close">Fechar</button>
+            </div>
+          </div>
+      )}
     </div>
   );
 };
