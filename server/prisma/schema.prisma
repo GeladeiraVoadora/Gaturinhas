@@ -29,17 +29,21 @@ model usuario {
   bio        String?  // Biografia
   friends    usuario[]   @relation("UserFriends")  // Lista de usuários que são amigos do usuário atual.
   friendOf   usuario[]   @relation("UserFriends")  // Lista de usuários em que o usuário atual aparece como amigo.
+
+  exodia exodia[]
 }
 
 model gaturinha {
   gatId     Int                 @id @default(autoincrement())
-  name      String
+  name      String              @unique
   image     String              @unique
   release   DateTime            @default(now())
   price     Int
   type      String
   desc      String
+  isExodia  Boolean             @default(false)
   gatProdEx gaturinha_product[]
+  exodia    exodia[]            @relation("ExodiaGaturinhas")
 }
 
 model gaturinha_product {
@@ -89,4 +93,14 @@ model album {
   gat_prod gaturinha_product[]
   price    Int                 @default(10000)
   catFed  String?
+  exodiaCompleted Boolean         @default(false)
+}
+
+model exodia {
+  exodiaId  Int     @id @default(autoincrement())
+  name      String  @unique
+  desc      String?
+  userId    Int     // Relacionamento com o usuário
+  user      usuario @relation(fields: [userId], references: [userId])
+  gaturinhas  gaturinha[] @relation("ExodiaGaturinhas")
 }
