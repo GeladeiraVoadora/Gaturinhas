@@ -35,7 +35,7 @@ export const Login: React.FC = () => {
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("userId", response.data.userId);
         localStorage.setItem("invId", response.data.invId);
-        openModal("Logado com sucesso!");
+        // openModal("Logado com sucesso!");
         setTimeout(() => {
           navigate("/home");
           window.location.reload();

@@ -25,21 +25,26 @@ model usuario {
   album      album?
   click      String?
   clickb     String?
-
+  cemiterio  cemiterio?
   bio        String?  // Biografia
   friends    usuario[]   @relation("UserFriends")  // Lista de usuários que são amigos do usuário atual.
   friendOf   usuario[]   @relation("UserFriends")  // Lista de usuários em que o usuário atual aparece como amigo.
+
+  exodia exodia[]
 }
 
 model gaturinha {
-  gatId     Int                 @id @default(autoincrement())
-  name      String
-  image     String              @unique
-  release   DateTime            @default(now())
-  price     Int
-  type      String
-  desc      String
-  gatProdEx gaturinha_product[]
+  gatId       Int                 @id @default(autoincrement())
+  name        String              @unique
+  image       String              @unique
+  release     DateTime            @default(now())
+  price       Int
+  type        String
+  desc        String
+  isExodia  Boolean             @default(false)
+  gatProdEx   gaturinha_product[]
+  gatFalecido gatinhoFalecido[]
+  exodia    exodia[]            @relation("ExodiaGaturinhas")
 }
 
 model gaturinha_product {
@@ -67,11 +72,11 @@ model pac_product {
   PacId     Int?        @default(1)
   inv       inventario? @relation(fields: [invId], references: [invId], onDelete: Cascade, onUpdate: Cascade)
   invId     Int?
-  gatId1    Int         
-  gatId2    Int         
-  gatId3    Int         
-  gatId4    Int         
-  gatId5    Int         
+  gatId1    Int
+  gatId2    Int
+  gatId3    Int
+  gatId4    Int
+  gatId5    Int
 }
 
 model inventario {
@@ -88,5 +93,32 @@ model album {
   userId   Int                 @unique
   gat_prod gaturinha_product[]
   price    Int                 @default(10000)
-  catFed  String?
+  exodiaCompleted Boolean         @default(false)
+  catFed   String?
+}
+
+model gatinhoFalecido {
+  falecidoId  Int       @id @default(autoincrement())
+  gat         gaturinha @relation(fields: [gatId], references: [gatId], onDelete: Cascade, onUpdate: Cascade)
+  gatId       Int
+  cemiterio   cemiterio @relation(fields: [cemiterioId], references: [cemiterioId], onDelete: Cascade, onUpdate: Cascade)
+  cemiterioId Int
+  price       Int
+}
+
+model cemiterio {
+  cemiterioId Int               @id @default(autoincrement())
+  user        usuario           @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  userId      Int               @unique
+  listaGats   gatinhoFalecido[]
+  exodiaCompleted Boolean         @default(false)
+}
+
+model exodia {
+  exodiaId  Int     @id @default(autoincrement())
+  name      String  @unique
+  desc      String?
+  userId    Int     // Relacionamento com o usuário
+  user      usuario @relation(fields: [userId], references: [userId])
+  gaturinhas  gaturinha[] @relation("ExodiaGaturinhas")
 }

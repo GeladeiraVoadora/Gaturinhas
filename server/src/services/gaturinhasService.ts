@@ -1,9 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { IGaturinhaService } from "./interfaces/IGaturinhaService";
+import { ICoinService } from "./interfaces/ICoinService";
+import { CemiterioService } from "./CemiterioService";
 
 const prisma = new PrismaClient();
 
 export class GaturinhaService implements IGaturinhaService {
+  private readonly coinService!: ICoinService;
+  private readonly CemiterioService = new CemiterioService();
 
   async createGaturinha(userId: number, data: any): Promise<{ msg?: string; error?: string }> {
     const { name, image, price, type, desc } = data;
@@ -79,15 +83,41 @@ export class GaturinhaService implements IGaturinhaService {
     return true;
   }
 
-  sellGaturinha(prodId: number): Promise<boolean | { error: string; }> {
-    throw new Error("Method not implemented.");
-  }
+  async sellGaturinha(prodId: number, email: string): Promise<boolean | { error: string }> {
+  try {
+    const value = await prisma.gaturinha_product.findUnique({
+      where: { prodId },
+      include: { gat: { select: { gatId: true, price: true } } },
+    });
+    const usuario = await prisma.usuario.findUnique({ where: { email } });
 
-  addToCemiterio(gatId: number): Promise<boolean | { error: string; }> {
-    throw new Error("Method not implemented.");
+    if (!usuario || !value || !value.gat) {
+      return { error: "Venda não autorizada. Verifique existência do usuário/gaturinha." };
+    }
+
+    const money = Math.floor(Number(value.gat.price) / 3);
+    if (isNaN(money) || money <= 0) {
+      return { error: "Erro no cálculo do valor. Verifique os dados do produto." };
+    }
+
+    // Then perform service calls
+    await prisma.usuario.update({
+      where: { userId:Number(usuario.userId) },
+      data: {
+        money: { increment: money },
+      },
+    });
+
+    this.CemiterioService.createGatinhoFalecido(Number(usuario.userId), Number(value.gat.gatId));
+
+    // Perform database operations first
+    await prisma.gaturinha_product.delete({ where: { prodId } });
+
+    return true;
+  } catch (error) {
+    console.error("Erro ao realizar a venda de gaturinha:", error);
+    return { error: "Ocorreu um erro durante a operação. Por favor, tente novamente mais tarde." };
   }
-  
-  ressuscitaGaturinha(gatId: number, email: string): Promise<boolean | { error: string; }> {
-    throw new Error("Method not implemented.");
-  }
+}
+
 }

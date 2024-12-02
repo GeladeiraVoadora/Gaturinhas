@@ -37,7 +37,7 @@ export const Button: React.FC = () => {
       })
       .catch((error) => {
         console.error(error);
-        openModal("Erro ao verificar o estado de alimentação dos gatinhos.");
+        // openModal("Erro ao verificar o estado de alimentação dos gatinhos.");
       });
   }, []);
 
