@@ -1,24 +1,23 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, gaturinha } from '@prisma/client';
 import { ICemiterioService } from "./interfaces/ICemiterioService";
 
 const prisma = new PrismaClient();
 export class CemiterioService implements ICemiterioService {
-  async findAllGatinhosFalecidos(userId: number): Promise<any[]> {
+  async findAllGatinhosFalecidos(userId: number): Promise<any> {
     try {
       const cemiterio = await prisma.cemiterio.findUnique({
         where: { userId },
-        include: {
-          listaGats: {
-            include: { gat: true },
-          },
+        select: {
+          listaGats: {},
         },
       });
+      console.log(cemiterio)
 
       if (!cemiterio) {
         throw new Error("Cemitério não encontrado.");
       }
 
-      return cemiterio.listaGats.map((lista) => lista.gat);
+      return cemiterio;
     } catch (error) {
       console.error(error);
       return [];
@@ -46,7 +45,7 @@ export class CemiterioService implements ICemiterioService {
         data: {
           gat: { connect: { gatId: Number(gatId) } },
           cemiterio: { connect: { cemiterioId: cemiterio.cemiterioId } },
-          price: Number(gaturinha?.price) / 3,
+          price: Math.floor(Number(gaturinha?.price) / 3),
         },
       });
 
@@ -64,8 +63,9 @@ export class CemiterioService implements ICemiterioService {
     falecidoId: number
   ): Promise<boolean | { error: string }> {
     try {
+      console.log(falecidoId)
       const gaturinha = await prisma.gatinhoFalecido.findFirst({
-        where: { FalecidoId: falecidoId },
+        where: { falecidoId },
         include: { cemiterio: { select: { user: true } } },
       });
 
@@ -102,6 +102,8 @@ export class CemiterioService implements ICemiterioService {
         where: { email: usuario.email },
         data: { money: newMoney },
       });
+
+      await prisma.gatinhoFalecido.delete({where:{falecidoId: gaturinha.falecidoId}})
 
       return true;
     } catch (error: any) {
