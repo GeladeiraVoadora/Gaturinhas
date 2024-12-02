@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import '../../index.css';
@@ -12,10 +12,21 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
   const userId = parseInt(localStorage.getItem('userId') || "0", 10);
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const colar = () => {
     if (!userId) {
-      alert('Você deve estar logado para colar');
+      openModal('Você deve estar logado para colar');
       navigate('/');
       return;
     }
@@ -25,50 +36,32 @@ const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
     })
     .then(response => {
       if (response.data === false) { 
-        alert("Não foi possível colar a figurinha");
+        openModal("Não foi possível colar a figurinha");
       } else {
-        alert("Colado!");
+        openModal("Colado!");
+        setTimeout(() => window.location.reload(), 2000);
       }
-      console.log(response.data);
-      window.location.reload();
     })
     .catch(error => {
       console.log(error);
-      alert("Ocorreu um erro ao realizar a colagem");
+      openModal("Ocorreu um erro ao realizar a colagem");
     });
   };
-
-  // const vender = () => {
-  //   if (!userId) {
-  //       alert('Você deve estar logado para vender');
-  //       navigate('/');
-  //       return;
-  //   }
-  //   axios.put(`http://localhost:3030/api/album/stick/${userId}`, {
-  //     prodId: prodId,
-  //   })
-  //   .then(response => {
-  //     if (response.data === false){ 
-  //       alert("Não foi possível colar a figurinha")
-  //     }
-  //     else{
-  //       alert("Colado!")
-  //     }
-  //     console.log(response.data)
-  //     window.location.reload();
-  //   })
-  //   .catch(error => {
-  //     console.log(error);
-  //     alert("Ocorreu um erro ao realizar a colagem");
-  //   });
-  // };
 
   return (
     <div className="card">
       <img src={image} alt={name} />
       <h3>{name}</h3>
       <button onClick={colar}>Stick</button>
-      {/* <button onClick={vender}>Sell</button> */}
+
+      {modalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={closeModal} className="modal-close">Fechar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

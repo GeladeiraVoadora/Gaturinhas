@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import audioFile from "../../Assets/GatinhoAlimentado.mp3";
+import "../../index.css";
 
 export const Button: React.FC = () => {
   const [disabled, setDisabled] = useState<boolean>(false);
   const [audio] = useState<HTMLAudioElement>(new Audio(audioFile));
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     const userId = parseInt(localStorage.getItem("userId") || "0", 10);
@@ -25,12 +37,14 @@ export const Button: React.FC = () => {
       })
       .catch((error) => {
         console.error(error);
+        openModal("Erro ao verificar o estado de alimentação dos gatinhos.");
       });
   }, []);
 
   const feedCats = () => {
     const userId = parseInt(localStorage.getItem("userId") || "0", 10);
     if (!userId) {
+      openModal("Usuário não autenticado.");
       return;
     }
 
@@ -38,17 +52,18 @@ export const Button: React.FC = () => {
       .then((response) => {
         if (response.data === true) {
           audio.play();
-          alert("Gatinhos Alimentados!");
-
+          openModal("Gatinhos Alimentados!");
           setDisabled(true);
+
           const today = new Date().toISOString().slice(0, 10);
           Axios.put(`http://localhost:3030/api/album/${userId}/UpdatelastClickedDate`, { catFed: today });
         } else {
-          alert("Gaturinhas Insuficientes para alimentar!");
+          openModal("Gaturinhas Insuficientes para alimentar!");
         }
       })
       .catch((error) => {
         console.error(error);
+        openModal("Erro ao alimentar os gatinhos.");
       });
   };
 
@@ -57,6 +72,15 @@ export const Button: React.FC = () => {
       <button disabled={disabled} onClick={feedCats}>
         Alimentar Gatinhos
       </button>
+
+      {modalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={closeModal} className="modal-close">Fechar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -21,6 +21,7 @@ export const Navbar: React.FC = () => {
               <li className="nav-item"><Link to='/trade'>Trade</Link></li>
               <li className="nav-item"><Link to='/cemetery'>Cemetery</Link></li>
               <li className="nav-item"><Link to='/forge'>Forge</Link></li>
+              <li className="nav-item"><Link to='/perfil'>Perfil</Link></li>
               <li className="nav-item"><Logout /></li>
             </ul>
           </nav>

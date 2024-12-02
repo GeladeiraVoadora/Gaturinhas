@@ -26,6 +26,10 @@ model usuario {
   click      String?
   clickb     String?
   cemiterio  cemiterio?
+
+  bio        String?  // Biografia
+  friends    usuario[]   @relation("UserFriends")  // Lista de usuários que são amigos do usuário atual.
+  friendOf   usuario[]   @relation("UserFriends")  // Lista de usuários em que o usuário atual aparece como amigo.
 }
 
 model gaturinha {
