@@ -22,20 +22,14 @@ export const Button: React.FC = () => {
       return;
     }
 
-    Axios.get(`http://localhost:3030/api/coins/daily/${userId}/lastClickedDate`)
-      .then((response) => {
-        const lastClickedDate: string = response.data.click;
-        const today = new Date().toISOString().slice(0, 10);
+    const lastClickedDate = localStorage.getItem("lastClickedDate");
+    const today = new Date().toISOString().slice(0, 10);
 
-        if (!lastClickedDate || lastClickedDate !== today) {
-          setDisabled(false);
-        } else {
-          setDisabled(true);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (!lastClickedDate || lastClickedDate !== today) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   }, []);
 
   const handleCollectReward = () => {
@@ -51,7 +45,12 @@ export const Button: React.FC = () => {
         setDisabled(true);
         const today = new Date().toISOString().slice(0, 10);
 
-        Axios.put(`http://localhost:3030/api/coins/daily/${userId}/UpdatelastClickedDate`, { click: today });
+        localStorage.setItem("lastClickedDate", today);
+
+        Axios.put(
+          `http://localhost:3030/api/coins/daily/${userId}/UpdatelastClickedDate`,
+          { click: today }
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -69,7 +68,9 @@ export const Button: React.FC = () => {
         <div className="modal-overlay">
           <div className="modal-content">
             <p>{modalMessage}</p>
-            <button onClick={closeModal} className="modal-close">Fechar</button>
+            <button onClick={closeModal} className="modal-close">
+              Fechar
+            </button>
           </div>
         </div>
       )}
