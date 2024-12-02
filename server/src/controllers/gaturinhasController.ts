@@ -1,7 +1,7 @@
 import { IGaturinhaService } from "../services/interfaces/IGaturinhaService";
 
 export default class GaturinhasController {
-  constructor(private gaturinhaService: IGaturinhaService) {}
+  constructor(private readonly gaturinhaService: IGaturinhaService) {}
 
   async createGaturinha(req: any, res: any) {
     const { userId } = req.params;
@@ -23,6 +23,18 @@ export default class GaturinhasController {
       }
     } catch (error) {
       return res.json({ error });
+    }
+  }
+
+  async sellGaturinha(req: any, res: any){
+    try{
+      const {prodId, email} = req.body;
+      const result = await this.gaturinhaService.sellGaturinha(prodId, email);
+      if (typeof result === "boolean" && result === true){
+        return res.json(true);
+      }
+    }catch(error){
+      return res.json({ error});
     }
   }
 }

@@ -13,6 +13,7 @@ export default class TradeController {
     }
   }
 
+
   async tradeCardsRandom(req: any, res: any) {
     try {
       const { prodIds, invId } = req.body;
@@ -39,5 +40,7 @@ export default class TradeController {
     } catch (error) {
       return res.json({ error });
     }
-  }
-}
+  },
+
+  //TODO: Trade with friends
+};

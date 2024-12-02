@@ -9,6 +9,8 @@ interface CardProps {
   name: string;
 }
 
+const email = localStorage.getItem("email");
+
 const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
   const userId = parseInt(localStorage.getItem('userId') || "0", 10);
   const navigate = useNavigate();
@@ -48,11 +50,37 @@ const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
     });
   };
 
+  const vender = () => {
+    if (!userId) {
+      openModal('Você deve estar logado para colar');
+      navigate('/');
+      return;
+    }
+
+    axios.post(`http://localhost:3030/api/sell`, {
+      prodId: prodId,
+      email: email
+    })
+    .then(response => {
+      if (response.data === false) { 
+        openModal("Não foi possível vender a figurinha");
+      } else {
+        openModal("Vendido!");
+        setTimeout(() => window.location.reload(), 2000);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      openModal("Ocorreu um erro ao realizar a venda");
+    });
+  };
+
   return (
     <div className="card">
       <img src={image} alt={name} />
       <h3>{name}</h3>
       <button onClick={colar}>Stick</button>
+      <button onClick={vender}>sell</button>
 
       {modalOpen && (
         <div className="modal-overlay">
