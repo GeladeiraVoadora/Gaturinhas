@@ -69,8 +69,8 @@ const Card: React.FC<CardProps> = ({ prodId, image, name }) => {
         openModal("Não foi possível vender a figurinha");
       } else {
         openModal("Vendido!");
-        setTimeout(() => window.location.reload(), 2000);
         audio.play();
+        setTimeout(() => window.location.reload(), 2000);
       }
     })
     .catch(error => {
